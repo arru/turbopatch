@@ -7,7 +7,7 @@ import re
 
 module_name = re.match("^[a-zA-Z_]+$", sys.argv[1]).group(0)
 class_name = "%sPatch" % (module_name)
-if len (sys.argv) == 2:
+if len(sys.argv) == 2:
 	portname = None
 else:
 	portname = sys.argv[2]

@@ -12,7 +12,6 @@ class RefacePatch(SysexPatch.SysexPatch):
 	REFACE_YC_ID = 0x06
 
 	DEFAULT_PORT_NAME = "reface DX"
-	#dumprequest to get the currently selected patch:
 	REFACE_DX_BANK_PANEL = [0x0E, 0x0F, 0x00]
 
 	REFACE_DX_BULK_HEADER = (67, 0, 127, 28, 0, 4, 5, 0x0E, 0x0F, 0, 94)
@@ -21,27 +20,26 @@ class RefacePatch(SysexPatch.SysexPatch):
 	def _send_request(self, port):
 		device_number = 0x20
 
-		req = [self.DEVICE_ID, device_number] + self.GROUP_ID +\
-			  [self.REFACE_DX_ID] +  self.REFACE_DX_BANK_PANEL
+		req = [self.DEVICE_ID, device_number] + self.GROUP_ID + \
+			  [self.REFACE_DX_ID] + self.REFACE_DX_BANK_PANEL
 
 		request = mido.Message('sysex', data=req)
 		out_port = self._open_output(port)
 		out_port.send(request)
 
-
 	@classmethod
 	def _verify(cls, msg_list):
-		if len (msg_list) == 0:
+		if len(msg_list) == 0:
 			return cls.VERIFY_INVALID
 		else:
 			for item in msg_list:
-				#TODO checksum
+				# TODO checksum
 				data = item.data
 				if not (data[0] == cls.DEVICE_ID and list(data[2:4]) == cls.GROUP_ID and data[6] == cls.REFACE_DX_ID):
 					return cls.VERIFY_INVALID
 
-			if len (msg_list) >= 3 and msg_list[0].data == cls.REFACE_DX_BULK_HEADER and msg_list[-1].data == cls.REFACE_DX_BULK_FOOTER:
+			if len(msg_list) >= 3 and msg_list[0].data == cls.REFACE_DX_BULK_HEADER and msg_list[
+				-1].data == cls.REFACE_DX_BULK_FOOTER:
 				return cls.VERIFY_COMPLETE
 
 			return cls.VERIFY_VALID
-

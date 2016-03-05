@@ -13,7 +13,6 @@ class StreichfettPatch(SysexPatch.SysexPatch):
 
 	BANK_LETTERS = ['A', 'B', 'C']
 
-
 	def _send_request(self, port):
 		request = mido.Message('sysex', data=[self.DEVICE_ID, 0x19, self.NULL_DEVICE, 0x00, self.BANK_PANEL])
 		out_port = self._open_output(port)

@@ -65,9 +65,7 @@ class SysexPatch(object):
 						self._data.append(message)
 						timeout = time.time() + self.TIMEOUT_DURATION + self.SLEEP_DURATION
 
-		if self._verify(self._data) == self.VERIFY_COMPLETE:
-			print "Received patch %s, done" % self._get_name()
-		else:
+		if not self._verify(self._data) == self.VERIFY_COMPLETE:
 			print "Incomplete patch data received"
 
 	def write_syx(self, filename):
