@@ -11,14 +11,12 @@ class RefacePatch(SysexPatch.SysexPatch):
 	REFACE_DX_ID = 0x05
 	REFACE_YC_ID = 0x06
 
+	DEFAULT_PORT_NAME = "reface DX"
 	#dumprequest to get the currently selected patch:
 	REFACE_DX_BANK_PANEL = [0x0E, 0x0F, 0x00]
 
 	REFACE_DX_BULK_HEADER = (67, 0, 127, 28, 0, 4, 5, 0x0E, 0x0F, 0, 94)
 	REFACE_DX_BULK_FOOTER = (67, 0, 127, 28, 0, 4, 5, 0x0F, 0x0F, 0, 93)
-
-	def __init__(self, port):
-		self._receive(port)
 
 	def _send_request(self, port):
 		device_number = 0x20

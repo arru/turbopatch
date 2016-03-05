@@ -10,10 +10,9 @@ class StreichfettPatch(SysexPatch.SysexPatch):
 	NULL_DEVICE = 0x7f
 
 	BANK_LETTERS = ['A', 'B', 'C']
+	DEFAULT_PORT_NAME = "Streichfett"
 
 
-	def __init__(self, port):
-		self._receive(port)
 
 	def _send_request(self, port):
 		request = mido.Message('sysex', data=[self.DEVICE_ID, 0x19, self.NULL_DEVICE, 0x00, self.BANK_ALL])

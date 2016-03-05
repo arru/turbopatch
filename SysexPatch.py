@@ -9,9 +9,17 @@ class SysexPatch(object):
 	VERIFY_VALID = 1
 	VERIFY_COMPLETE = 2
 
+	DEFAULT_PORT_NAME = None
+
 	_data = []
 	_in_port = None
 	_out_port = None
+
+	def __init__(self, port):
+		if port is None:
+			self._receive(self.DEFAULT_PORT_NAME)
+		else:
+			self._receive(port)
 
 	def _open_input(self, port):
 		if self._in_port is None:
