@@ -28,8 +28,8 @@ class StreichfettPatch(SysexPatch.SysexPatch):
 		return "%s%d" % (bank, patch_num)
 
 	@classmethod
-	def _verify(cls, data):
-		if len(data) == 1 and data[0][0] == cls.DEVICE_ID and len(data[0]) == 30:
+	def _verify(cls, msg_list):
+		if len(msg_list) == 1 and list(msg_list[0].data)[0] == cls.DEVICE_ID and len(msg_list[0].data) == 30:
 			return cls.VERIFY_COMPLETE
 
 		return cls.VERIFY_INVALID

@@ -32,16 +32,18 @@ class RefacePatch(SysexPatch.SysexPatch):
 
 
 	@classmethod
-	def _verify(cls, data):
-		if len (data) == 0:
+	def _verify(cls, msg_list):
+		if len (msg_list) == 0:
 			return cls.VERIFY_INVALID
 		else:
-			for item in data:
+			for item in msg_list:
 				#TODO checksum
-				if not (item[0] == cls.DEVICE_ID and list(item[2:4]) == cls.GROUP_ID and item[6] == cls.REFACE_DX_ID):
+				data = item.data
+				if not (data[0] == cls.DEVICE_ID and list(data[2:4]) == cls.GROUP_ID and data[6] == cls.REFACE_DX_ID):
 					return cls.VERIFY_INVALID
 
-			if len (data) >= 3 and data[0] == cls.REFACE_DX_BULK_HEADER and data[-1] == cls.REFACE_DX_BULK_FOOTER:
+			if len (msg_list) >= 3 and msg_list[0].data == cls.REFACE_DX_BULK_HEADER and msg_list[-1].data == cls.REFACE_DX_BULK_FOOTER:
 				return cls.VERIFY_COMPLETE
 
 			return cls.VERIFY_VALID
+

@@ -32,7 +32,8 @@ class SysexPatch(object):
 		return "(no name)"
 
 	@classmethod
-	def _verify(cls, data):
+	def _verify(cls, msg_list):
+		"""Determine if data in msg_list is either 1. valid so far or 2. a complete, valid patch"""
 		raise NotImplementedError()
 
 	def _send_request(self, port):
@@ -52,8 +53,8 @@ class SysexPatch(object):
 				message = msg_iterator.next()
 				if message.type == 'sysex':
 					print('Received {}'.format(message))
-					if self._verify([message.data]) >= self.VERIFY_VALID:
-						self._data.append(message.data)
+					if self._verify([message]) >= self.VERIFY_VALID:
+						self._data.append(message)
 						timeout = time.time() + self.TIMEOUT_DURATION + self.SLEEP_DURATION
 
 			except StopIteration:
