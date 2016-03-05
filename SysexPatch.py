@@ -1,5 +1,7 @@
 import mido
 import time
+import sys
+
 
 class SysexPatch(object):
 	TIMEOUT_DURATION = 3.0
@@ -74,3 +76,10 @@ class SysexPatch(object):
 	def write_syx(self, filename):
 		assert (self._verify(self._data) == self.VERIFY_COMPLETE)
 		mido.write_syx_file(filename, self._data, plaintext=False)
+
+	def dump(self):
+		"""Send comma-separated SysEx data to stdout"""
+		for message in self._data:
+			for byte in message.data:
+				sys.stdout.write("%d, " % byte)
+			sys.stdout.write("\n")
