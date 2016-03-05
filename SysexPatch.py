@@ -78,7 +78,6 @@ class SysexPatch(object):
 		while time.time() < timeout:
 			for message in in_port.iter_pending():
 				if message.type == 'sysex':
-					print('Received {}'.format(message))
 					if self._verify([message]) >= self.VERIFY_VALID:
 						self._data.append(message)
 						timeout = time.time() + self.TIMEOUT_DURATION + self.SLEEP_DURATION
