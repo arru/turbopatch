@@ -27,6 +27,15 @@ class RefacePatch(SysexPatch.SysexPatch):
 		out_port = self._open_output(port)
 		out_port.send(request)
 
+	def get_name(self):
+		name = ""
+
+		for c in self._data[1].data[10:20]:
+			name = name + chr(c)
+
+		name = name.strip()
+		return name
+
 	@classmethod
 	def _verify(cls, msg_list):
 		if len(msg_list) == 0:
