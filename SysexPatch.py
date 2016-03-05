@@ -38,9 +38,12 @@ class SysexPatch(object):
 
 	def get_name(self):
 		if len(self._data) > 0:
-			return "(no name)"
+			return self._get_name()
 		else:
-			return None
+			return "(no name)"
+
+	def _get_name(self):
+		return None
 
 	@classmethod
 	def _verify(cls, msg_list):
