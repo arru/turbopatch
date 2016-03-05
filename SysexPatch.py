@@ -66,3 +66,7 @@ class SysexPatch(object):
 			print "Received patch %s, done" % self._get_name()
 		else:
 			print "Incomplete patch data received"
+
+	def write_syx(self, filename):
+		assert (self._verify(self._data) == self.VERIFY_COMPLETE)
+		mido.write_syx_file(filename, self._data, plaintext=False)
