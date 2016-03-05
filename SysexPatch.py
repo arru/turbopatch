@@ -1,6 +1,19 @@
-import mido
-import time
+import importlib
+import re
 import sys
+import time
+import mido
+
+
+def load_device_class(device_name, port_name=None):
+	module_name = re.match("^[a-zA-Z_]+$", device_name).group(0)
+	class_name = "%sPatch" % (module_name)
+
+	module = importlib.import_module(module_name)
+
+	return getattr(module, class_name)
+
+
 
 
 class SysexPatch(object):

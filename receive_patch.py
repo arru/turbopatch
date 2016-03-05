@@ -1,20 +1,17 @@
 #!/usr/bin/env python
 
-import importlib
-import mido
 import sys
-import re
+import mido
+import SysexPatch
 
-module_name = re.match("^[a-zA-Z_]+$", sys.argv[1]).group(0)
-class_name = "%sPatch" % (module_name)
+device_name = sys.argv[1]
 if len(sys.argv) == 2:
 	portname = None
 else:
 	portname = sys.argv[2]
 
-module = importlib.import_module(module_name)
+device_class = SysexPatch.load_device_class(device_name, portname)
 
-device_class = getattr(module, class_name)
 try:
 	patch = device_class(portname)
 except IOError:

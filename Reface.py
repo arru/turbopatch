@@ -2,7 +2,6 @@ import SysexPatch
 import mido
 
 
-
 class RefacePatch(SysexPatch.SysexPatch):
 	DEVICE_ID = 0x43
 	GROUP_ID = [0x7f, 0x1c]
