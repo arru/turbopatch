@@ -46,20 +46,14 @@ class SysexPatch(object):
 		self._send_request(port)
 
 		timeout = time.time() + self.TIMEOUT_DURATION
-		msg_iterator = in_port.__iter__()
 		while time.time() < timeout:
-			try:
-				#FIXME: midi port has some kind of built in sleep
-				message = msg_iterator.next()
+			for message in in_port.iter_pending():
 				if message.type == 'sysex':
 					print('Received {}'.format(message))
 					if self._verify([message]) >= self.VERIFY_VALID:
 						self._data.append(message)
 						timeout = time.time() + self.TIMEOUT_DURATION + self.SLEEP_DURATION
 
-			except StopIteration:
-				time.sleep(SLEEP_DURATION)
-				msg_iterator = in_port.__iter__()
 		if self._verify(self._data) == self.VERIFY_COMPLETE:
 			print "Received patch %s, done" % self._get_name()
 		else:
