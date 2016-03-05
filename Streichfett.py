@@ -19,7 +19,7 @@ class StreichfettPatch(SysexPatch.SysexPatch):
 		out_port = self._open_output(port)
 		out_port.send(request)
 
-	def _get_name(self):
+	def get_name(self):
 		patch_code = list(self._data[0].data)[4]
 
 		if patch_code == 127:
