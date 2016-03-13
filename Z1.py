@@ -24,21 +24,19 @@ class Z1Patch(SysexPatch.SysexPatch):
 
 	CHAR_SUBSTITUTES = {0: "", 47: "-"}
 
-	def _send_request(self, port):
+	def _request_data(self):
 		device_number = 0x30  # 0x3n n = global midi channel
 
 		function_code = self.BANK_PANEL
 		unit_code = self.PROGRAM_UNIT_PROG + self.BANK_PROGRAM_UNIT_BANK_A
 		program_number = 99  # Ignored except with PROGRAM_UNIT_PROG
 
-		req = [self.DEVICE_ID, device_number, self.GROUP_ID, function_code]
+		req_data = [self.DEVICE_ID, device_number, self.GROUP_ID, function_code]
 		if function_code == self.BANK_PROGRAM_UNIT:
-			req.extend([unit_code, program_number])
-		req.append(0x00)
+			req_data.extend([unit_code, program_number])
+		req_data.append(0x00)
 
-		request = mido.Message('sysex', data=req)
-		out_port = self._open_output(port)
-		out_port.send(request)
+		return req_data
 
 	def _get_name(self):
 		name = ""

@@ -16,15 +16,13 @@ class RefacePatch(SysexPatch.SysexPatch):
 	REFACE_DX_BULK_HEADER = (67, 0, 127, 28, 0, 4, 5, 0x0E, 0x0F, 0, 94)
 	REFACE_DX_BULK_FOOTER = (67, 0, 127, 28, 0, 4, 5, 0x0F, 0x0F, 0, 93)
 
-	def _send_request(self, port):
+	def _request_data(self):
 		device_number = 0x20
 
 		req = [self.DEVICE_ID, device_number] + self.GROUP_ID + \
 			  [self.REFACE_DX_ID] + self.REFACE_DX_BANK_PANEL
 
-		request = mido.Message('sysex', data=req)
-		out_port = self._open_output(port)
-		out_port.send(request)
+		return req
 
 	def _get_name(self):
 		name = ""

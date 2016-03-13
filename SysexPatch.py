@@ -77,8 +77,18 @@ class SysexPatch(object):
 		"""Determine if data in msg_list is either 1. valid so far or 2. a complete, valid patch"""
 		raise NotImplementedError()
 
+	def _request_data(self):
+		return None
+
 	def _send_request(self, port):
-		print "No request command available, please initiate sysex on instrument"
+		req_data = self._request_data()
+
+		if req_data is None:
+			print "No request command available, please initiate sysex on instrument"
+		else:
+			request = mido.Message('sysex', data=req_data)
+			out_port = self._open_output(port)
+			out_port.send(request)
 
 	def _receive(self, port):
 		assert len(self._data) == 0
