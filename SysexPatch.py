@@ -17,7 +17,7 @@ def load_device_class(device_name, port_name=None):
 
 
 class SysexPatch(object):
-	TIMEOUT_DURATION = 3.0
+	TIMEOUT_DURATION = 8.0
 	SLEEP_DURATION = 0.25
 
 	VERIFY_INVALID = 0
