@@ -22,7 +22,6 @@ class Z1Patch(SysexPatch.SysexPatch):
 	BANK_PANEL_FUNC = 0x40
 	BANK_PROGRAM_FUNC = 0x4C
 
-	CHAR_SUBSTITUTES = {0: "", 47: "-"}
 
 	def _request_data(self):
 		device_number = 0x30  # 0x3n n = global midi channel
@@ -38,25 +37,16 @@ class Z1Patch(SysexPatch.SysexPatch):
 
 		return req_data
 
-	def _get_name(self):
-		name = ""
+	def _name_bytes(self):
 		data = self._data[0].data
 
 		if data[3] == self.BANK_PANEL_FUNC:
-			name_offset = 6
+			return data[6:24]
 		elif data[3] == self.BANK_PROGRAM_FUNC:
-			name_offset = 8
+			return data[8:26]
 		else:
 			raise NotImplementedError("Can't extract name from unsupported patch format (%x)" % data[3])
 
-		for c in data[name_offset:(name_offset + 18)]:
-			if c in self.CHAR_SUBSTITUTES:
-				name = name + self.CHAR_SUBSTITUTES[c]
-			else:
-				name = name + chr(c)
-
-		name = name.strip()
-		return name
 
 	@classmethod
 	def _verify(cls, msg_list):

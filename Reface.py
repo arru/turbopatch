@@ -24,14 +24,8 @@ class RefacePatch(SysexPatch.SysexPatch):
 
 		return req
 
-	def _get_name(self):
-		name = ""
-
-		for c in self._data[1].data[10:20]:
-			name = name + chr(c)
-
-		name = name.strip()
-		return name
+	def _name_bytes(self):
+		return self._data[1].data[10:20]
 
 	@classmethod
 	def _verify(cls, msg_list):

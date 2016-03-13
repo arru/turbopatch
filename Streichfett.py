@@ -16,7 +16,9 @@ class StreichfettPatch(SysexPatch.SysexPatch):
 	def _request_data(self):
 		return [self.DEVICE_ID, 0x19, self.NULL_DEVICE, 0x00, self.BANK_PANEL]
 
-	def _get_name(self):
+	# In the case of Streichfett, name is not extracted from patch bytestream, hence get_name is
+	# overridden directly instead of _name_bytes
+	def get_name(self):
 		patch_code = list(self._data[0].data)[4]
 
 		if patch_code == 127:

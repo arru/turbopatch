@@ -26,6 +26,8 @@ class SysexPatch(object):
 
 	DEFAULT_PORT_NAME = None
 
+	CHAR_SUBSTITUTES = {0: "", 47: "-"}
+
 	_data = []
 	_in_port = None
 	_out_port = None
@@ -64,12 +66,29 @@ class SysexPatch(object):
 		return self._out_port
 
 	def get_name(self):
-		if len(self._data) > 0:
-			return self._get_name()
+		"""Return patch name as string, or None if objects lacks a complete patch (program) dump."""
+		if self._verify(self._data) != self.VERIFY_COMPLETE:
+			return None
+
+		name_data = self._name_bytes()
+
+		if name_data is not None:
+			name = ""
+			for c in name_data:
+				if c in self.CHAR_SUBSTITUTES:
+					name = name + self.CHAR_SUBSTITUTES[c]
+				else:
+					name = name + chr(c)
+
+			name = name.strip()
+
+			return name
 		else:
 			return "(no name)"
 
-	def _get_name(self):
+	def _name_bytes(self):
+		"""Will only be called when patch data verifies to VERIFY_COMPLETE. Returns mere unconverted bytes that make up patch name. Either override this, or get_name() if
+		name extraction is more complicated than slicing a part of the byte stream"""
 		return None
 
 	@classmethod
