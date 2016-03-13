@@ -12,7 +12,7 @@ Supported instruments
 * Waldorf Streichfett
 * Yamaha Reface DX
 
-…and the utility has been designed for maximum ease when writing new support classes.
+…and designed for maximum ease when writing new support classes.
 
 receive_patch.py usage
 ----------------------
