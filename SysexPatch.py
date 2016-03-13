@@ -43,7 +43,7 @@ class SysexPatch(object):
 			except IOError:
 				print "Couldn't open input port '%s'. The following MIDI ports are available:" % port
 				for p in mido.get_input_names():
-					print (p)
+					print "'%s'" % p
 				raise
 		else:
 			assert self._in_port.name == port
@@ -56,7 +56,7 @@ class SysexPatch(object):
 			except IOError:
 				print "Couldn't open output port '%s'. The following MIDI ports are available:" % port
 				for p in mido.get_output_names():
-					print (p)
+					print "'%s'" % p
 				raise
 		else:
 			assert self._out_port.name == port
