@@ -38,14 +38,26 @@ class SysexPatch(object):
 
 	def _open_input(self, port):
 		if self._in_port is None:
-			self._in_port = mido.open_input(port)
+			try:
+				self._in_port = mido.open_input(port)
+			except IOError:
+				print "Couldn't open input port '%s'. The following MIDI ports are available:" % port
+				for p in mido.get_input_names():
+					print (p)
+				raise
 		else:
 			assert self._in_port.name == port
 		return self._in_port
 
 	def _open_output(self, port):
 		if self._out_port is None:
-			self._out_port = mido.open_output(port)
+			try:
+				self._out_port = mido.open_output(port)
+			except IOError:
+				print "Couldn't open output port '%s'. The following MIDI ports are available:" % port
+				for p in mido.get_output_names():
+					print (p)
+				raise
 		else:
 			assert self._out_port.name == port
 
